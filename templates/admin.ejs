@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Profile</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+</head>
+<body class="font-mono bg-gray-100">
+
+  <header class="bg-gray-800 text-white text-center py-4">
+    <h1 class="text-2xl font-bold">Admin Profile</h1><br>
+    <img src=".../profilepicture/<%=email%>.jpeg">
+  </header>
+
+  <nav class="bg-gray-200 p-4">
+    <ul class="flex">
+      <li class="mr-6"><a href="#profile-view" class="text-blue-500 hover:text-blue-700">Profile View</a></li>
+      <li><a href="#profile-edit" class="text-blue-500 hover:text-blue-700">View & Edit </a></li>
+    </ul>
+  </nav>
+
+  <main class="p-6">
+    <!-- Content will be loaded here based on user selection -->
+  </main>
+
+  <footer class="bg-gray-800 text-white text-center py-4 fixed bottom-0 w-full">
+    <p>&copy; 2024 Your Website</p>
+  </footer>
+
+  <script>document.addEventListener('DOMContentLoaded', function() {
+    // Default to "Profile View" when the page loads
+    loadProfileView();
+  
+    // Add event listeners for navigation links
+    document.querySelector('nav a[href="#profile-view"]').addEventListener('click', loadProfileView);
+    document.querySelector('nav a[href="#profile-edit"]').addEventListener('click', loadProfileEdit);
+  });
+  
+  function loadProfileView() {
+    // Load content for "Profile View" here
+    document.querySelector('main').innerHTML = '<h2><%=user.name%></h2><p><%=user.number%><br><%=user.email%></p>';
+  }
+  
+  function loadProfileEdit() {
+    // Load content for "Profile Edit" here
+    document.querySelector('main').innerHTML = '<form action="/adminchange" method="post"><input type="text" name="name"><br>'+
+        '<button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300">Change</button><table class="border border-collapse">'+
+        '<thead><tr><th>Name</th><th>email</th><th>Phone</th></thead><tbody><% var i = 0; %><% while (i < user.length) { %><tr>'+
+            ' <td class="border p-2"><%= result[i].name %></td><td class="border p-2"><%= result[i].email %></td><td class="border p-2"><%=result[i].number%></td>'+
+            '<td class="border p-2"><label><input type="radio" name="patientid" value="<%= result[i].email %>"></label></td>'+
+            '</tr><% i++; %><% } %></tbody></table>'+
+            '<input type="text" name="name">';
+  }
+  </script>
+</body>
+</html>
